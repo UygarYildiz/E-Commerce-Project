@@ -3,25 +3,19 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-aws_access_key=os.getenv("AWS_ACCESS_KEY")
-aws_secret_key=os.getenv("AWS_SECRET_KEY")
-aws_region=os.getenv("AWS_REGION")
-BUCKET_NAME="olist-project-bucket"
 
+BUCKET_NAME="olist-project-bucket"
+default_region="eu-central-1"
 
 def create_s3_client():
     s3_client=boto3.client(
-        "s3",
-        aws_access_key_id=aws_access_key,
-        aws_secret_access_key=aws_secret_key,
-        region_name=aws_region
-       
+        "s3"
     )
     try:
         s3_client.create_bucket(
             Bucket=BUCKET_NAME,
             CreateBucketConfiguration={
-                "LocationConstraint":aws_region
+                "LocationConstraint":default_region
             }
         )
         print(f"Bucket oluşturuldu: {BUCKET_NAME}")
@@ -33,7 +27,7 @@ def create_s3_client():
 
     for folder in folders:
         s3_client.put_object(Bucket=BUCKET_NAME,Key=folder)
-        print(f"Klasör oluşturuldu: {folder}")
+        print(f"Klasör oluşturuldu: {folder}")  
     
 
 if __name__=="__main__":
