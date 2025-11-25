@@ -17,9 +17,9 @@ def create_rds_instance():
 
     try:
         response=rds.create_db_instance(
-            DBNAME=db_name,
+            DBName=db_name,
             DBInstanceIdentifier=db_identifier,
-            AllocatedStorage=4,
+            AllocatedStorage=20,
             DBInstanceClass="db.t3.micro",
             Engine="postgres",
             MasterUsername=master_username,
