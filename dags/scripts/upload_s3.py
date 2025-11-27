@@ -12,11 +12,15 @@ BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
 def upload_to_s3():
     if not BUCKET_NAME:
         print("HATA: AWS_BUCKET_NAME .env dosyasında tanımlı değil")
-        sys.exit(1)
+        raise ValueError("AWS_BUCKET_NAME .env dosyasında tanımlı değil")
     s3_client=boto3.client("s3")
 
-    data_folder=os.path.join(os.getcwd(),"data","raw")
-
+    data_folder="/opt/airflow/data/raw"
+    if not os.path.exists(data_folder):
+        print(f"HATA Klasör bulunamadı {data_folder}")
+        raise FileNotFoundError(f" Klasör yok: {data_folder}")
+        
+        
     for filename in os.listdir(data_folder):
         if filename.endswith(".csv"):
             file_path=os.path.join(data_folder,filename)
@@ -28,10 +32,9 @@ def upload_to_s3():
                 print(f" Yükleme başarılı: {filename} dosyası S3'e {s3_path}'e yüklendi.")
             except Exception as e:
                 print(f" {filename} dosyası S3'e yüklenemedi :{e}")
+                raise e
             
-    
-if __name__=="__main__":
-    upload_to_s3()
+
    
 
             

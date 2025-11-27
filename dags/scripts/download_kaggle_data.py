@@ -8,10 +8,12 @@ def download_kaggle_dataset():
     api = KaggleApi()
     api.authenticate()
 
+
+    # İndirilecek veri seti
     dataset="olistbr/brazilian-ecommerce"
 
     #Hedef dizin
-    target_path=os.path.join(os.getcwd(),"data","raw")
+    target_path="/opt/airflow/data/raw"
 
     # Klasör yoksa oluştur
     if not os.path.exists(target_path):
@@ -19,7 +21,10 @@ def download_kaggle_dataset():
     
     print(f"Veri seti indiriliyor: {dataset} dizinine: {target_path}")
 
+
     # Veri setini indir ve aç
+
+    print(f"Veri seti indiriliyor: {dataset} -> {target_path}")
 
     api.dataset_download_files(dataset,
                                path=target_path,
@@ -30,8 +35,7 @@ def download_kaggle_dataset():
 
     print("İndirme tamamlandı.")
 
-if __name__=="__main__":
-     download_kaggle_dataset()
+
 
 
 
