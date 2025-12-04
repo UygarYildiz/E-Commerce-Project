@@ -1,0 +1,201 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "olist_customers",
+      "schemaName": "public",
+      "x": 744,
+      "y": 432
+    },
+    {
+      "name": "olist_orders",
+      "schemaName": "public",
+      "x": 744,
+      "y": 808
+    },
+    {
+      "name": "olist_geolocation",
+      "schemaName": "public",
+      "x": 272,
+      "y": 48
+    },
+    {
+      "name": "olist_order_items",
+      "schemaName": "public",
+      "x": 1104,
+      "y": 568
+    },
+    {
+      "name": "olist_products",
+      "schemaName": "public",
+      "x": 336,
+      "y": 664
+    },
+    {
+      "name": "olist_sellers",
+      "schemaName": "public",
+      "x": 984,
+      "y": 152
+    },
+    {
+      "name": "product_category_name_translation",
+      "schemaName": "public",
+      "x": 600,
+      "y": 128
+    },
+    {
+      "name": "olist_order_payments",
+      "schemaName": "public",
+      "x": 448,
+      "y": 352
+    },
+    {
+      "name": "olist_order_reviews",
+      "schemaName": "public",
+      "x": 48,
+      "y": 376
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "customer_id"
+      ],
+      "firstTableName": "olist_customers",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "customer_id"
+      ],
+      "secondTableName": "olist_orders",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "order_id"
+      ],
+      "firstTableName": "olist_orders",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "olist_order_items",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "product_id"
+      ],
+      "firstTableName": "olist_products",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "olist_order_items",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "seller_id"
+      ],
+      "firstTableName": "olist_sellers",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "seller_id"
+      ],
+      "secondTableName": "olist_order_items",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "order_id"
+      ],
+      "firstTableName": "olist_orders",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "olist_order_payments",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "customer_zip_code_prefix"
+      ],
+      "firstTableName": "olist_customers",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "geolocation_zipcode_prefix"
+      ],
+      "secondTableName": "olist_geolocation",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "seller_zip_code_prefix"
+      ],
+      "firstTableName": "olist_sellers",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "geolocation_zipcode_prefix"
+      ],
+      "secondTableName": "olist_geolocation",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "product_category_name"
+      ],
+      "firstTableName": "product_category_name_translation",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "product_category_name"
+      ],
+      "secondTableName": "olist_products",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "order_id"
+      ],
+      "firstTableName": "olist_orders",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "olist_order_reviews",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    }
+  ]
+}
