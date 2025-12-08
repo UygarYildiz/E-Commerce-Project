@@ -47,7 +47,7 @@ create table if not exists olist_products(
 	product_id VARCHAR(50),
 	product_category_name VARCHAR(50),
 	product_name_lenght int,
-	product_description_length int,
+	product_description_lenght int,
 	product_photos_qty int,
 	product_weight_g int,
 	product_length_cm int,

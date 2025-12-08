@@ -34,7 +34,8 @@ def upload_to_s3():
                 print(f" {filename} dosyası S3'e yüklenemedi :{e}")
                 raise e
             
-
+if __name__ =="__main__":
+    upload_to_s3()
    
 
             

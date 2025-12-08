@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from scripts.download_kaggle_data import download_kaggle_dataset
 from scripts.upload_s3 import upload_to_s3
+from scripts.load_to_rds import load_to_rds
 
 default_args = {
     'owner': 'uygar',
@@ -20,6 +21,7 @@ default_args = {
     catchup=False,
     tags=["olist","aws"]
 )
+
 def etl_pipeline():
 
     @task
@@ -30,7 +32,12 @@ def etl_pipeline():
     def task_upload_data():
         upload_to_s3()
     
-    task_download_data() >> task_upload_data()
+    @task
+    def load_to_rds():
+        load_to_rds()
+    
+    task_download_data() >> task_upload_data() >> load_to_rds()
+
 
 
 etl_pipeline()

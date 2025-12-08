@@ -35,6 +35,10 @@ def download_kaggle_dataset():
 
     print("İndirme tamamlandı.")
 
+if __name__ == "__main__":
+    download_kaggle_dataset()
+
+
 
 
 
