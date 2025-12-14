@@ -33,10 +33,10 @@ def etl_pipeline():
         upload_to_s3()
     
     @task
-    def load_to_rds():
+    def task_load_to_rds():
         load_to_rds()
     
-    task_download_data() >> task_upload_data() >> load_to_rds()
+    task_download_data() >> task_upload_data() >> task_load_to_rds()
 
 
 
