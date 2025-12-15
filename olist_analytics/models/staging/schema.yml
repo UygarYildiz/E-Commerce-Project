@@ -3,17 +3,37 @@ version: 2
 models:
   - name: stg_orders
     description: S3'ten RDS e yüklenen orders tablosu
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "order_approved_at >= order_purchase_timestamp"
+          config:
+            where: "order_approved_at IS NOT NULL"
     columns:
-      - name : order_id
+      - name: order_id
         tests:
           - unique
           - not_null
 
-      - name : customer_id
+      - name: customer_id
         tests:
-         -  unique
-         -  not_null
-      
+          - unique
+          - not_null
+
+      - name: order_status
+        tests:
+          - accepted_values:
+              values:
+                [
+                  "DELIVERED",
+                  "SHIPPED",
+                  "CANCELLED",
+                  "PROCESSING",
+                  "INVOICED",
+                  "CREATED",
+                  "UNAVAILABLE",
+                  "APPROVED",
+                ]
+
   - name: stg_customers
     description: Temizlenmiş Ham Veri Modeli "Silver-Layer"
     columns:
@@ -21,34 +41,43 @@ models:
         tests:
           - unique
           - not_null
-  
+
   - name: stg_order_items
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [order_id,order_item_id]
+          combination_of_columns: [order_id, order_item_id]
+    columns:
+      - name: price
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: freight_value
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
 
   - name: stg_order_payments
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [order_id,payment_sequential]
-    
+          combination_of_columns: [order_id, payment_sequential]
+
   - name: stg_order_reviews
-    description: | 
+    description: |
       VERİ KALİTESİ PROBLEMİ: Bu staging tablosunda review_id duplicate şekilde mevcut.
       Bunu önlemek ve testi sağlamak için composite key (review_id,order_id) kullanıldı.
       Mart layer a geçildiğinde bu sorun dikkate alınarak duplicateler engellenecek.
 
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [review_id,order_id]
-  
+          combination_of_columns: [review_id, order_id]
+
   - name: stg_sellers
     columns:
       - name: seller_id
         tests:
           - unique
           - not_null
-          
+
   - name: stg_products
     columns:
       - name: product_id
@@ -62,11 +91,31 @@ models:
         tests:
           - unique
           - not_null
-    
-       
 
-         
+  - name: stg_geolocation
+    description: |
+      Geolocation verisindeki outliler'lar temizlendi.
+      1. Brezilya sınırları dikkate alınarak aykırı değerler elendi.
+      2. Sonrasında aykırı değerlerin filtrelemesini arttırma için IQR ile filtreleme yapıldı.
+      3. Deduplucation: Her ZIP için AVG koordinat (outlier'lar zaten temizlendiği için MEDIAN yerine AVG alındı)
+      1M satır -> 19K satıra indirildi.
 
-          
-    
-       
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            [geolocation_zip_code_prefix, geolocation_city, geolocation_state]
+    columns:
+      - name: geolocation_city
+        tests:
+          - not_null
+      - name: geolocation_state
+        tests:
+          - not_null
+      - name: geolocation_lat
+        description: Latitude (IQR + Domain ile temizlenmiş)
+        tests:
+          - not_null
+      - name: geolocation_lng
+        description: Longitude (IQR + Domain ile temizlenmiş)
+        tests:
+          - not_null
